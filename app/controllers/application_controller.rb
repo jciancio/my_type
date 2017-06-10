@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  before_action :current_user
+  before_action :authenticate_user
 
   def current_user
     begin
-      @current_user ||= User.find(params[:user_id])
+      @current_user ||= User.find_by_email(params[:email]) if params[:email]
     rescue Exception => e
       {
         status: 500,
@@ -12,5 +13,9 @@ class ApplicationController < ActionController::API
         }
       }
     end
+  end
+
+  def authenticate_user
+    render json: {staus: 401, message: 'Unauthenticated!'} unless current_user.try(:authenticate, params[:password])
   end
 end

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  post '/login' => 'sessions#create'
 
-  resources :users do
+  resources :users, only: :index do
     resources :user_likes, path: 'likes', shallow: true do
       resources :reaction_data, shallow: true
     end

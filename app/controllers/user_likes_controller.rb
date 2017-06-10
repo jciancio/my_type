@@ -1,8 +1,4 @@
 class UserLikesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :current_user
-  respond_to :json
-
   def index
     user_likes = UserLike.where(user_id: current_user.id).all
 
