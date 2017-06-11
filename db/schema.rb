@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170610214142) do
     t.float "white"
     t.float "black"
     t.string "image_url"
+    t.integer "user_id"
   end
 
   create_table "reaction_data", force: :cascade do |t|
@@ -52,5 +53,6 @@ ActiveRecord::Schema.define(version: 20170610214142) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "kairos_profiles", "users"
   add_foreign_key "reaction_data", "user_likes"
 end

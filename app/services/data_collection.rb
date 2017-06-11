@@ -43,4 +43,8 @@ class DataCollection < Array
     select { |n| n < conf_range[0] && n > conf_range[1] }.to_data_collection
   end
 
+  def normalize
+
+  end
+
 end

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  post 'image/create'
-  get 'image/display'
+  resources :images, only: [:create]
 
   post '/login' => 'sessions#create'
 

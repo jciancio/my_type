@@ -20,4 +20,12 @@ class KairosProfile < ApplicationRecord
     self
   end
 
+  def priorities
+
+  end
+
+  def attrib_priority(attrib)
+    user.likes.kairos_profiles.map { |kp| send(attrib) }.to_data_collection.remove_outliers.standard_deviation
+  end
+
 end
