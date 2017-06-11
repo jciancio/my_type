@@ -1,7 +1,9 @@
+ReactionDatum.destroy_all
 User.destroy_all
 UserLike.destroy_all
 KairosProfile.destroy_all
 Stock.destroy_all
+reaction_data = Helpers.reaction_data[:frames]
 
 stock_images = [
   'http://www.bostonexecutiveheadshots.com/wp-content/uploads/2014/10/boston-headshot-photographer-40.jpg',
@@ -41,6 +43,14 @@ profile_images = [
   'http://imgur.com/ju6TnFE.jpg',
 ]
 
+User.create!({
+    name: 'Test',
+    email: 'test@test.com',
+    password: 'password',
+    type: 'User',
+    image_link: stock_images.sample,
+    gender: 0
+  })
 
 5.times do |n|
   user = {
@@ -71,7 +81,7 @@ users = User.all.map(&:id)
 
 10.times do |n|
   ul = UserLike.create!(user_id: users[(n-1)], like_id: users[n])
-  data = ReactionDatumParser.new(Helpers.reaction_data[:frames]).prepare
+  data = ReactionDatumParser.new(reaction_data.sample(100)).prepare
   ReactionDatum.create!(data.merge(user_like: ul))
 end
 
@@ -88,7 +98,7 @@ faces = [
   'http://balletcenter.nyu.edu/wp-content/uploads/2017/03/Preeti-Vasudevan_Headshot_Saravankumar.jpg'
 ]
 
-# 10.times do |n|
-#   KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
-#   puts "Face ##{n+1} Accepted"
-# end
+10.times do |n|
+  KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+  puts "Face ##{n+1} Accepted"
+end

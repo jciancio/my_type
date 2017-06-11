@@ -4,9 +4,16 @@ class ReactionDatumParser
   def initialize(frames)
     @frames = frames
     @frames_count = frames.size
-    @ppl_count = frames.map { |f| f[:people].size }.reduce(:+) / frames_count
+    @ppl_count = count_people
     @anger = @disgust = @fear = @joy = @sadness = @surprise = 0
     parse
+  end
+
+  def count_people
+    frames.map do |f|
+      s = f[:people].size
+      s > 0 ? s : 1
+    end.reduce(:+) / frames_count
   end
 
   def prepare
