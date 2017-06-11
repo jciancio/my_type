@@ -1,11 +1,5 @@
 class User < ActiveRecord::Base
-  # Include default devise modules.
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable, :omniauthable
-  include DeviseTokenAuth::Concerns::User
-
-  before_save -> { skip_confirmation! }
+  has_secure_password
 
   validates :email, uniqueness: true
   enum gender: [ :male, :female ]

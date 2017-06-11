@@ -1,6 +1,4 @@
 class ReactionDataController < ApplicationController
-  before_action :authenticate_user!
-  before_action :current_user
   before_action :set_user_like
 
   def index
