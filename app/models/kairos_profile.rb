@@ -4,6 +4,17 @@ class KairosProfile < ApplicationRecord
 
   validates :user, uniqueness: true
 
+  ATTRIBUTES = [
+    :chin_to_eye_height,
+    :eye_width,
+    :face_proportion,
+    :hispanic,
+    :asian,
+    :white,
+    :black,
+    :other
+  ].freeze
+
   def data
     @data ||= Facey.new(image_url)
   end
@@ -21,11 +32,11 @@ class KairosProfile < ApplicationRecord
   end
 
   def priorities
-
+    ATTRIBUTES.map { |attr| attrib_priority(attributes) }.sort.reverse!
   end
 
   def attrib_priority(attrib)
-    user.likes.kairos_profiles.map { |kp| send(attrib) }.to_data_collection.remove_outliers.standard_deviation
+    user.likes.kairos_profile.map { |kp| send(attrib) }.to_data_collection.remove_outliers.normalize.standard_deviation
   end
 
 end

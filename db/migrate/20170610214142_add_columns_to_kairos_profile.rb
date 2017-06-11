@@ -11,6 +11,5 @@ class AddColumnsToKairosProfile < ActiveRecord::Migration[5.1]
     add_column :kairos_profiles, :black, :float
     add_column :kairos_profiles, :image_url, :string
     add_column :kairos_profiles, :user_id, :integer
-    add_foreign_key :kairos_profiles, :users
   end
 end

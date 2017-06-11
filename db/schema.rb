@@ -54,6 +54,5 @@ ActiveRecord::Schema.define(version: 20170611011945) do
     t.boolean "premium", default: false
   end
 
-  add_foreign_key "kairos_profiles", "users"
   add_foreign_key "reaction_data", "user_likes"
 end

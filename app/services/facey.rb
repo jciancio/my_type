@@ -37,6 +37,7 @@ class Facey
   end
 
   def face_height
+    binding.pry
     emotion_response[:frames][0][:people][0][:face][:height].to_f
   end
 
@@ -81,9 +82,24 @@ class Facey
     resp
   end
 
-  def get_emotion_response
-    Moment.post_emotions(url).try(:with_indifferent_access)
+  def poll_emotion_response(id, loops=0)
+    puts "Polling..."
+    sleep 1
+    resp = nil
+    while (resp.blank? || resp[:status_message] != 'Complete') && loops < 15
+      Moment.get_emotion_response()
+      resp = poll_emotion_response(id, loops + 1)
+      break if resp[:status_message] == 'Complete'
+    end
+    resp
   end
+
+  def post_emotion_response
+    resp = Moment.post_emotions(url).try(:with_indifferent_access)
+    poll_emotion_response(resp[:id])
+  end
+
+  def get_emotion_response
 
   def validate_face!(resp)
     if resp.size > 1
