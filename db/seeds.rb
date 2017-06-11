@@ -1,12 +1,14 @@
 User.destroy_all
 UserLike.destroy_all
 KairosProfile.destroy_all
+Stock.destroy_all
 
 10.times do |n|
   user = {
     name: Faker::Name.unique.name,
     email: "#{(1..1000).to_a.sample}#{Faker::Internet.unique.email}",
-    password: 'password'
+    password: 'password',
+    type: 'User'
   }
 
   User.create!(user.merge!(gender: (n % 2)))
