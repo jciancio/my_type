@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'httparty'
+gem 'dotenv-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.1'
@@ -31,6 +32,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'faker'
   gem 'pry'
+  gem 'pry-rails'
   gem 'pry-nav'
 end
 

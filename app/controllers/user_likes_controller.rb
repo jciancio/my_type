@@ -14,7 +14,7 @@ class UserLikesController < ApplicationController
     begin
       like = User.find(params[:like_id])
       @user_like = UserLike.create!(user_id: current_user.id, like_id: like.id)
-      render_json(@user_like, 'User Like Added!')
+      render_json(@user_like, 'User Liked!')
     rescue Exception => e
       render_response(error: e)
     end

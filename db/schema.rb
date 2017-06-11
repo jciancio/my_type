@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170611021053) do
+ActiveRecord::Schema.define(version: 20170611044737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,12 @@ ActiveRecord::Schema.define(version: 20170611021053) do
     t.bigint "user_like_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "anger"
+    t.float "disgust"
+    t.float "fear"
+    t.float "joy"
+    t.float "sadness"
+    t.float "surprise"
     t.index ["user_like_id"], name: "index_reaction_data_on_user_like_id"
   end
 
