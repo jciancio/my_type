@@ -7,6 +7,7 @@ end
 
 gem 'devise_token_auth'
 gem 'omniauth'
+gem 'httparty'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.1'
