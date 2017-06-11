@@ -23,7 +23,9 @@ class CreditCardsController < ApplicationController
   
   def create_premium_payment
     if !current_user.premium
-      credit_card_params[:amount] = 49.99
+      params[:card_expiration_month] =   params[:card_expiration_month].to_i
+      params[:card_expiration_year] =   params[:card_expiration_year].to_i
+      params[:amount] = params[:amount].to_i 
       auth_response = Visa::CyberSource::Authorize.card(credit_card_params)
       if auth_response[:authorized_status]
         response = Visa::CyberSource::Payment.create(credit_card_params)
@@ -34,17 +36,13 @@ class CreditCardsController < ApplicationController
     else
       response = {status: 400, reason: "missing_field", message: "User is already Premium"}
     end
-    respond_to do |format|
-      format.json do 
-          render json: response
-      end  
-    end
+    render json: response
   end
   
   private
   
   def credit_card_params
-    params.require(:amount, :card_number, :card_expiration_month, :card_expiration_year)
+    params.permit(:amount, :card_number, :card_expiration_month, :card_expiration_year)
   end
   
 end
