@@ -77,7 +77,8 @@ class Facey
 
   def get_face_response
     resp = Moment.detect_faces(url)
-    resp = resp.with_indifferent_access
+    resp = resp.try(:with_indifferent_access)
+    # binding.pry
     validate_face!(resp[:images])
     resp
   end
@@ -95,8 +96,13 @@ class Facey
   end
 
   def post_emotion_response
-    resp = Moment.post_emotions(url).try(:with_indifferent_access)
-    poll_emotion_response(resp[:id])
+    # binding.pry
+    begin
+      resp = Moment.post_emotions(url).try(:with_indifferent_access)
+    rescue
+      binding.pry
+    end
+    # poll_emotion_response(resp[:id])
   end
 
   def validate_face!(resp)

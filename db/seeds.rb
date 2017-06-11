@@ -4,16 +4,16 @@ KairosProfile.destroy_all
 Stock.destroy_all
 
 stock_images = [
-  'http://www.bostonexecutiveheadshots.com/wp-content/uploads/2014/10/boston-headshot-photographer-40.jpg',
-  'https://s-media-cache-ak0.pinimg.com/originals/c8/33/e2/c833e2dbff0469309f5795ad4eadb8bc.jpg',
-  'http://balletcenter.nyu.edu/wp-content/uploads/2017/03/Preeti-Vasudevan_Headshot_Saravankumar.jpg',
-  'http://images.freeimages.com/images/premium/previews/1882/18822844-headshot-of-young-indian-woman.jpg',
-  'http://helendon.com/wp-content/uploads/2015/04/rockville-md-headshot-photographer-1-15.jpg',
-  'http://gabrielsolisphotography.com/wp-content/uploads/2015/08/Tawni_headshot_optimized.jpg',
-  'http://3.bp.blogspot.com/-wvTCg3ZnkVQ/VFVFWl1rK8I/AAAAAAAABVg/UXdO7I-vxlE/s1600/wendy-actors-headshot-126.jpg',
-  'https://www.scottphotographycompany.com/wp-content/uploads/2017/05/San-Antonio-headshot-photographer-1.jpg',
-  'https://s-media-cache-ak0.pinimg.com/originals/e4/e9/ec/e4e9ec7b444abfda3e94026cb1248389.jpg',
-  'http://cdn.c.photoshelter.com/img-get/I0000Gognjb9DHGw/s/900/900/YA0008Chinese-college-girl-smiles.jpg'
+  # 'http://jonvilma.com/images/face-13.jpg',
+  # 'https://s-media-cache-ak0.pinimg.com/originals/c8/33/e2/c833e2dbff0469309f5795ad4eadb8bc.jpg',
+  # 'http://balletcenter.nyu.edu/wp-content/uploads/2017/03/Preeti-Vasudevan_Headshot_Saravankumar.jpg',
+  # 'http://2.bp.blogspot.com/-3RU1bI1bfUM/Tk3FvOfOshI/AAAAAAAAASg/e1auUXp3hJI/s1600/Bordeaux_Andrea_737_ret.jpg',
+  # 'http://helendon.com/wp-content/uploads/2015/04/rockville-md-headshot-photographer-1-15.jpg',
+  # 'http://gabrielsolisphotography.com/wp-content/uploads/2015/08/Tawni_headshot_optimized.jpg',
+  # 'http://3.bp.blogspot.com/-wvTCg3ZnkVQ/VFVFWl1rK8I/AAAAAAAABVg/UXdO7I-vxlE/s1600/wendy-actors-headshot-126.jpg',
+  # 'https://www.scottphotographycompany.com/wp-content/uploads/2017/05/San-Antonio-headshot-photographer-1.jpg',
+  # 'https://s-media-cache-ak0.pinimg.com/originals/e4/e9/ec/e4e9ec7b444abfda3e94026cb1248389.jpg',
+  # 'http://cdn.c.photoshelter.com/img-get/I0000Gognjb9DHGw/s/900/900/YA0008Chinese-college-girl-smiles.jpg'
 ]
 
 profile_images = [
@@ -48,7 +48,8 @@ profile_images = [
     email: "#{(1..1000).to_a.sample}#{Faker::Internet.unique.email}",
     password: 'password',
     type: 'Stock',
-    image_link: stock_images[n-1]
+    # kairos_profile: KairosProfile.new(image_url: stock_images[n-1])
+    # image_link: stock_images[n-1]
   }
 
   User.create!(user.merge!(gender: (n % 2)))
@@ -61,7 +62,8 @@ end
     email: "#{(1..1000).to_a.sample}#{Faker::Internet.unique.email}",
     password: 'password',
     type: 'User',
-    image_link: profile_images[n]
+    # kairos_profile: KairosProfile.new(image_url: profile_images[n])
+    # image_link: profile_images[n]
   }
 
   User.create!(user.merge!(gender: (n % 2)))
@@ -86,24 +88,30 @@ faces = [
   'http://balletcenter.nyu.edu/wp-content/uploads/2017/03/Preeti-Vasudevan_Headshot_Saravankumar.jpg'
 ]
 
-10.times do |n|
-  # tries = 10
-  # tries.times do
-  #   result = begin
-  #     KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
-  #   rescue
-  #     nil
-  #   end
-  #   break if result
-  KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
-  end
-  puts "Face ##{n+1} Accepted"
+all_images = stock_images + profile_images
+User.all.each_with_index do |u, idx|
+  KairosProfile.seed_create_prof(u, idx, all_images)
+  puts "Profile ##{idx+1}"
 end
 
-def create(user, link)
-  begin
-    KairosProfile.create!(user_id: user, image_url: link)
-  rescue
-    nil
-  end
-end
+# 10.times do |n|
+#   # tries = 10
+#   # tries.times do
+#   #   result = begin
+#   #     KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+#   #   rescue
+#   #     nil
+#   #   end
+#   #   break if result
+#   KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+#   end
+#   puts "Face ##{n+1} Accepted"
+# end
+#
+# def create(user, link)
+#   begin
+#     KairosProfile.create!(user_id: user, image_url: link)
+#   rescue
+#     nil
+#   end
+# end

@@ -23,7 +23,8 @@ class Moment
       "app_key" => ENV['KAIROS_APP_SECRET']
     }
     body = {
-        "source" => pic_url
+      "source" => pic_url,
+      "timeout" => 60
     }
     HTTParty.post("https://api.kairos.com/v2/media", query: body, headers: headers, body: body.to_json).parsed_response
   end

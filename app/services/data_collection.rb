@@ -39,12 +39,16 @@ class DataCollection < Array
   end
 
   def remove_outliers
+    return self if length <= 2
     conf_range = confidence_interval
     select { |n| n < conf_range[0] && n > conf_range[1] }.to_data_collection
   end
 
   def normalize
-
+    x_min = self.min.to_f
+    new_arr = self.map { |n| (n - x_min) }
+    x_max = new_arr.max == 0 ? 1 : new_arr.max.to_f
+    new_arr.map! { |n| n / x_max rescue nil }.to_data_collection
   end
 
 end

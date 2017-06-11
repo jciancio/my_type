@@ -15,11 +15,12 @@ class KairosProfile < ApplicationRecord
     :other
   ].freeze
 
-  def data
-    @data ||= Facey.new(image_url)
+  def data_call
+    Facey.new(image_url)
   end
 
   def set_attribs
+    data = data_call
     self.chin_to_eye_height = data.chin_to_eye_height
     self.eye_width = data.eye_width
     self.face_proportion = data.face_proportion
@@ -31,12 +32,22 @@ class KairosProfile < ApplicationRecord
     self
   end
 
+  def self.seed_create_prof(user, idx, all_images)
+    begin
+      user.kairos_profile = KairosProfile.create!(user: user, image_url: all_images[idx])
+    rescue
+      binding.pry
+      seed_create_prof(user, idx, all_images)
+    end
+  end
+
   def priorities
-    ATTRIBUTES.map { |attr| attrib_priority(attributes) }.sort.reverse!
+    dick = ATTRIBUTES.map { |attr| attrib_priority(attr) }
+    dick.sort_by{ |pair| pair.values.first }.reverse.map { |pair| pair.keys.first }
   end
 
   def attrib_priority(attrib)
-    user.likes.kairos_profile.map { |kp| send(attrib) }.to_data_collection.remove_outliers.normalize.standard_deviation
+    {attrib => user.likes.map { |like| like.kairos_profile.send(attrib) }.to_data_collection.remove_outliers.normalize.standard_deviation}
   end
 
 end
