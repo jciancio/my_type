@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post 'image/create'
+  get 'image/display'
+
   post '/login' => 'sessions#create'
 
   resources :users, only: [:index, :show]
