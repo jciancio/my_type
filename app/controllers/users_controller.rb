@@ -1,10 +1,34 @@
 class UsersController < ApplicationController
-  # before_action :find_user, except: :index
+  before_action :find_user, except: [:index, :create]
 
   def index
     @users = User.all
 
     render json: @users
+  end
+
+  def show
+    begin
+      @response = {
+        status: 200,
+        data: {
+          user: @user
+        }
+      }
+
+      if current_user.likes.include? @user
+        @response[:data][:reaction_data] = current_user.likes.where(like_id: @user.id).reaction_datum
+      end
+    rescue Exception => e
+      @response = {
+        status: 500,
+        error: {
+          message: "#{e.message}"
+        }
+      }
+    end
+
+    render json: @response
   end
 
   def create

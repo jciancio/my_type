@@ -1,17 +1,20 @@
 class UserLikesController < ApplicationController
   def index
-    user_likes = UserLike.where(user_id: current_user.id).all
-
-    respond_with do |format|
-      format.json { render json: user_likes }
-    end
-  end
-
-  def liked_me
-    likes_user = UserLike.where(like_id: current_user.id).all
-
-    respond_with do |format|
-      format.json { render json: likes_user }
+    begin
+      render json: {
+        status: 200,
+        data: {
+          user_likes: current_user.likes,
+          likes_user: UserLike.where(like_id: current_user.id).map(&:user)
+        }
+      }
+    rescue Exception => e
+      render json: {
+        status: 500,
+        error: {
+          message: "#{e.message}"
+        }
+      }
     end
   end
 
@@ -22,7 +25,7 @@ class UserLikesController < ApplicationController
       @response = {
         status: 200,
         message: 'User Like Added!',
-        data: @user_like.to_json
+        data: @user_like
       }
     rescue Exception => e
       @response = {
@@ -34,17 +37,13 @@ class UserLikesController < ApplicationController
       }
     end
 
-    respond_with do |format|
-      format.json { render json: @response }
-    end
+    render json: @response
   end
 
   def destroy
     user_like = UserLike.where(like_id: params[:like_id], user_id: current_user.id).first
     user_like.destroy
 
-    respond_with do |format|
-      format.json { render json: { status: 200, message: 'User like destroyed!' } }
-    end
+    render json: { status: 200, message: 'User like destroyed!' }
   end
 end
