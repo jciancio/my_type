@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
   has_one :reaction_datum
   has_many :user_likes
   has_many :likes, through: :user_likes
-
+  has_many :dislikes
 end
