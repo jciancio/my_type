@@ -1,0 +1,3 @@
+class Stock < User
+
+end

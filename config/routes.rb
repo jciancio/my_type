@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
 
   resources :users, only: [:index, :show]
-
+  resources :stocks, only: [:index]
   resources :kairos_profile, only: :create
 
   resources :user_likes, path: 'likes', only: [:index, :create, :destroy], shallow: true do
