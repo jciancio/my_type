@@ -5,21 +5,16 @@ class KairosProfilesController < ApplicationController
     begin
       # Should pass instance of service not just params
       current_user.kairos_profile.create!(params)
-      render json: {status: 200, message: 'Kairos Profile Created!'}
+      render_response(message: 'Kairos Profile Created!')
     rescue Exception => e
-      render json: {
-        status: 500,
-        error: {
-          message: "#{e.message}"
-        }
-      }
+      render_response(error: e)
     end
   end
 
   def destroy
     current_user.kairos_profile.destroy
 
-    render json: {status: 200, message: 'Kairos Profile Destroyed!'}
+    render_response(message: 'Kairos Profile Destroyed!')
   end
 
   private

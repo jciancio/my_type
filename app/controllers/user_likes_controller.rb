@@ -1,20 +1,12 @@
 class UserLikesController < ApplicationController
   def index
     begin
-      render json: {
-        status: 200,
-        data: {
-          user_likes: current_user.likes,
-          likes_user: UserLike.where(like_id: current_user.id).map(&:user)
-        }
-      }
+      render_response(data: {
+        user_likes: current_user.likes,
+        likes_user: UserLike.where(like_id: current_user.id).map(&:user)
+      })
     rescue Exception => e
-      render json: {
-        status: 500,
-        error: {
-          message: "#{e.message}"
-        }
-      }
+      render_response(error: e)
     end
   end
 
@@ -22,28 +14,16 @@ class UserLikesController < ApplicationController
     begin
       like = User.find(params[:like_id])
       @user_like = UserLike.create!(user_id: current_user.id, like_id: like.id)
-      @response = {
-        status: 200,
-        message: 'User Like Added!',
-        data: @user_like
-      }
+      render_json(@user_like, 'User Like Added!')
     rescue Exception => e
-      @response = {
-        status: 500,
-        error: {
-          message: "#{'*' * 100} #{e.message} #{'*' * 100}",
-          backtrace: "#{e.backtrace}"
-        }
-      }
+      render_response(error: e)
     end
-
-    render json: @response
   end
 
   def destroy
-    user_like = UserLike.where(like_id: params[:like_id], user_id: current_user.id).first
+    user_like = UserLike.where(like_id: params[:id], user_id: current_user.id).first
     user_like.destroy
 
-    render json: { status: 200, message: 'User like destroyed!' }
+    render_response(message: 'User like destroyed!')
   end
 end

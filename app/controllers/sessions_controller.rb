@@ -6,20 +6,9 @@ class SessionsController < ApplicationController
     @user = User.find_by_email(params[:email])
 
     if @user && @user.authenticate(params[:password])
-      @response = {
-        status: 200,
-        message: 'Logged In!',
-        data: {
-          user_id: @user.id
-        }
-      }
+      render_response(data: {user_id: @user.id}, message: 'Logged In!')
     else
-      @response = {
-        status: 401,
-        message: "Unable to login"
-      }
+      render_response(error: Exception.new, message: 'Unable to login', status: 401)
     end
-
-    render json: @response
   end
 end
