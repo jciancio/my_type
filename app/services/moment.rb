@@ -21,11 +21,11 @@ class Moment
     headers = {
       "app_id" => ENV['KAIROS_APP_ID'],
       "app_key" => ENV['KAIROS_APP_SECRET']
-      }
-      body = {
+    }
+    body = {
         "source" => pic_url
-      }
-    resp = HTTParty.post("https://api.kairos.com/v2/media", query: body, headers: headers, body: body.to_json).parsed_response
+    }
+    HTTParty.post("https://api.kairos.com/v2/media", query: body, headers: headers, body: body.to_json).parsed_response
   end
 
   def self.get_emotions(id)

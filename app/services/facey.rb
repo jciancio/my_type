@@ -9,7 +9,7 @@ class Facey
   def initialize(image_url)
     @url = image_url
     @face_response = get_face_response
-    @emotion_response = get_emotion_response
+    @emotion_response = post_emotion_response
   end
 
   def dimensions
@@ -76,13 +76,27 @@ class Facey
   end
 
   def get_face_response
-    resp = Moment.detect_faces(url).with_indifferent_access
+    resp = Moment.detect_faces(url)
+    resp = resp.with_indifferent_access
     validate_face!(resp[:images])
     resp
   end
 
-  def get_emotion_response
-    Moment.post_emotions(url).try(:with_indifferent_access)
+  def poll_emotion_response(id, loops=0)
+    puts "Polling..."
+    sleep 1
+    resp = nil
+    while (resp.blank? || resp[:status_message] != 'Complete') && loops < 15
+      resp = Moment.get_emotions(id).try(:with_indifferent_access)
+        break if resp[:status_message] == 'Complete'
+      resp = poll_emotion_response(id, loops + 1)
+    end
+    resp
+  end
+
+  def post_emotion_response
+    resp = Moment.post_emotions(url).try(:with_indifferent_access)
+    poll_emotion_response(resp[:id])
   end
 
   def validate_face!(resp)
