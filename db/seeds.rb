@@ -22,8 +22,8 @@ end
 
 faces = [
   'http://jonvilma.com/images/face-13.jpg',
-  'http://s1.r29static.com//bin/entry/9f1/x,80/1536749/image.jpg',
-  'https://cdn.techinasia.com/wp-content/uploads/2015/07/kuanhua-hsu.jpg',
+  'http://cdn.c.photoshelter.com/img-get/I0000Gognjb9DHGw/s/900/900/YA0008Chinese-college-girl-smiles.jpg',
+  'https://s-media-cache-ak0.pinimg.com/originals/e4/e9/ec/e4e9ec7b444abfda3e94026cb1248389.jpg',
   'http://2.bp.blogspot.com/-3RU1bI1bfUM/Tk3FvOfOshI/AAAAAAAAASg/e1auUXp3hJI/s1600/Bordeaux_Andrea_737_ret.jpg',
   'https://s-media-cache-ak0.pinimg.com/originals/cd/32/30/cd32305b2a778c2a3805a7baea545b9b.jpg',
   'http://www.ewtn.com/SERIES/2003/Choices_we_face.jpg',
@@ -34,6 +34,23 @@ faces = [
 ]
 
 10.times do |n|
+  # tries = 10
+  # tries.times do
+  #   result = begin
+  #     KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+  #   rescue
+  #     nil
+  #   end
+  #   break if result
   KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+  end
   puts "Face ##{n+1} Accepted"
+end
+
+def create(user, link)
+  begin
+    KairosProfile.create!(user_id: user, image_url: link)
+  rescue
+    nil
+  end
 end
