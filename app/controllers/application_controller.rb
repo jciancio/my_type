@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   def render_response(opts={})
     opts = HashWithIndifferentAccess.new(opts)
     return render_error_from(opts[:error], opts[:error].message, opts[:status]) if !!opts[:error]
-    render_json(opts[:data], opts[:message], opts[:status])
+    render_json(opts[:data], opts[:message])
   end
 
   def render_error_from(error, message='', status=500)

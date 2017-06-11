@@ -70,7 +70,9 @@ end
 users = User.all.map(&:id)
 
 10.times do |n|
-  UserLike.create!(user_id: users[(n-1)], like_id: users[n])
+  ul = UserLike.create!(user_id: users[(n-1)], like_id: users[n])
+  data = ReactionDatumParser.new(Helpers.reaction_data[:frames]).prepare
+  ReactionDatum.create!(data.merge(user_like: ul))
 end
 
 faces = [
@@ -86,7 +88,7 @@ faces = [
   'http://balletcenter.nyu.edu/wp-content/uploads/2017/03/Preeti-Vasudevan_Headshot_Saravankumar.jpg'
 ]
 
-10.times do |n|
-  KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
-  puts "Face ##{n+1} Accepted"
-end
+# 10.times do |n|
+#   KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
+#   puts "Face ##{n+1} Accepted"
+# end
