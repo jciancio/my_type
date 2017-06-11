@@ -34,6 +34,6 @@ faces = [
 ]
 
 10.times do |n|
-  KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n], type: 'Stock')
+  KairosProfile.create!(user_id: users[(n-1)], image_url: faces[n])
   puts "Face ##{n+1} Accepted"
 end
