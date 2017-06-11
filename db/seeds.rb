@@ -1,7 +1,9 @@
+ReactionDatum.destroy_all
 User.destroy_all
 UserLike.destroy_all
 KairosProfile.destroy_all
 Stock.destroy_all
+reaction_data = Helpers.reaction_data[:frames]
 
 stock_images = [
   # 'http://jonvilma.com/images/face-13.jpg',
@@ -41,6 +43,14 @@ profile_images = [
   'http://imgur.com/ju6TnFE.jpg',
 ]
 
+User.create!({
+    name: 'Test',
+    email: 'test@test.com',
+    password: 'password',
+    type: 'User',
+    image_link: stock_images.sample,
+    gender: 0
+  })
 
 5.times do |n|
   user = {
@@ -72,7 +82,9 @@ end
 users = User.all.map(&:id)
 
 10.times do |n|
-  UserLike.create!(user_id: users[(n-1)], like_id: users[n])
+  ul = UserLike.create!(user_id: users[(n-1)], like_id: users[n])
+  data = ReactionDatumParser.new(reaction_data.sample(100)).prepare
+  ReactionDatum.create!(data.merge(user_like: ul))
 end
 
 faces = [

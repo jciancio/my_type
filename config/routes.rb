@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show]
   resources :stocks, only: [:index]
   resources :kairos_profile, only: :create
+  resources :dislikes, only: :create
 
   resources :user_likes, path: 'likes', only: [:index, :create, :destroy], shallow: true do
     resources :reaction_data, only: :create

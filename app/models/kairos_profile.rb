@@ -1,6 +1,6 @@
 class KairosProfile < ApplicationRecord
   belongs_to :user
-  before_save :set_attribs
+  # before_save :set_attribs
 
   validates :user, uniqueness: true
 

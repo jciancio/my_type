@@ -37,7 +37,6 @@ class CreditCardsController < ApplicationController
     respond_to do |format|
       format.json do 
           render json: response
-        end  
       end  
     end
   end
