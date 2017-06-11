@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20170611021053) do
     t.integer "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "premium", default: false
     t.string "type"
   end
 
