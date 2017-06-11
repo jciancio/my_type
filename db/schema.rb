@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170611021053) do
     t.float "white"
     t.float "black"
     t.string "image_url"
+    t.integer "user_id"
   end
 
   create_table "reaction_data", force: :cascade do |t|
