@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 20170611093116) do
     t.datetime "updated_at", null: false
     t.boolean "premium", default: false
     t.string "type"
-    t.string "image_link"
   end
 
   add_foreign_key "reaction_data", "user_likes"

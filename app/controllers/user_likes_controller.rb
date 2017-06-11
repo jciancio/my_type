@@ -2,8 +2,8 @@ class UserLikesController < ApplicationController
   def index
     begin
       render_response(data: {
-        user_likes: current_user.likes,
-        likes_user: UserLike.where(like_id: current_user.id).map(&:user)
+        user_likes: current_user.likes.map { |u| u.attributes.merge(image_link: u.kairos_profile.image_url) },
+        likes_user: UserLike.where(like_id: current_user.id).map(&:user).map { |u| u.attributes.merge(image_link: u.kairos_profile.image_url) }
       })
     rescue Exception => e
       render_response(error: e)

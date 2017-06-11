@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :find_user, except: [:index, :create]
 
   def index
-    @users = User.all
+    @users = UserLikeSorter.new(current_user).score_users
 
     render_response(data: @users)
   end
@@ -12,8 +12,10 @@ class UsersController < ApplicationController
       @response = { user: @user }
 
       if current_user.likes.include? @user
+        reaction = current_user.user_likes.where(like_id: @user.id).first.reaction_datum
         @response.merge!({
-          reaction_data: current_user.user_likes.where(like_id: @user.id).first.reaction_datum
+          reaction_data: reaction,
+          analysis: reaction.analyze
         })
       end
 

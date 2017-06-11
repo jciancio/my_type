@@ -9,9 +9,8 @@ class ReactionDataController < ApplicationController
 
   def create
     begin
-      reaction_data = Moment.post_emotions(params[:pic_url])
-      reaction_datum = ReactionDatumParser.new(reaction_data[:frames]).prepare
-
+      # reaction_data = Moment.post_emotions(params[:pic_url])
+      reaction_datum = ReactionDatumParser.new(Helpers.reaction_data[:frames]).prepare
       @reaction_datum = ReactionDatum.create!(reaction_datum.merge(user_like: @user_like))
       render_response(data: @reaction_datum, message: 'Reaction Data Saved!')
     rescue Exception => e

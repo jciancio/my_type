@@ -1,8 +1,8 @@
-ReactionDatum.destroy_all
-User.destroy_all
-UserLike.destroy_all
-KairosProfile.destroy_all
-Stock.destroy_all
+# ReactionDatum.destroy_all
+# User.destroy_all
+# UserLike.destroy_all
+# KairosProfile.destroy_all
+# Stock.destroy_all
 reaction_data = Helpers.reaction_data[:frames]
 
 stock_images = [
@@ -48,7 +48,6 @@ User.create!({
     email: 'test@test.com',
     password: 'password',
     type: 'User',
-    image_link: stock_images.sample,
     gender: 0
   })
 
